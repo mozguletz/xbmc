@@ -24,6 +24,7 @@
 #include "../../addons/library.kodi.guilib/libKODI_guilib.h"
 #include "cores/dvdplayer/DVDDemuxers/DVDDemuxUtils.h"
 #include "addons/include/xbmc_pvr_types.h"
+#include "addons/include/xbmc_voip_types.h"
 #include "addons/include/xbmc_codec_types.h"
 
 #ifdef TARGET_WINDOWS
@@ -410,6 +411,16 @@ typedef void (*XBMCGUILib_UnRegisterMe)(void *addonData, CB_GUILib *cbTable);
 typedef CB_PVRLib* (*XBMCPVRLib_RegisterMe)(void *addonData);
 typedef void (*XBMCPVRLib_UnRegisterMe)(void *addonData, CB_PVRLib *cbTable);
 
+typedef void (*VOIPAddMenuHook)(void *addonData, VOIP_MENUHOOK *hook);
+
+typedef struct CB_VOIPLib
+{
+  VOIPAddMenuHook                AddMenuHook;
+} CB_VOIPLib;
+
+typedef CB_VOIPLib* (*XBMCVOIPLib_RegisterMe)(void *addonData);
+typedef void (*XBMCVOIPLib_UnRegisterMe)(void *addonData, CB_VOIPLib *cbTable);
+
 typedef struct AddonCB
 {
   const char                *libBasePath;                  ///> Never, never change this!!!
@@ -422,6 +433,8 @@ typedef struct AddonCB
   XBMCGUILib_UnRegisterMe    GUILib_UnRegisterMe;
   XBMCPVRLib_RegisterMe      PVRLib_RegisterMe;
   XBMCPVRLib_UnRegisterMe    PVRLib_UnRegisterMe;
+  XBMCVOIPLib_RegisterMe     VOIPLib_RegisterMe;
+  XBMCVOIPLib_UnRegisterMe   VOIPLib_UnRegisterMe;
 } AddonCB;
 
 
@@ -433,6 +446,7 @@ class CAddonCallbacksAddon;
 class CAddonCallbacksCodec;
 class CAddonCallbacksGUI;
 class CAddonCallbacksPVR;
+class CAddonCallbacksVOIP;
 
 class CAddonCallbacks
 {
@@ -449,11 +463,14 @@ public:
   static void GUILib_UnRegisterMe(void *addonData, CB_GUILib *cbTable);
   static CB_PVRLib* PVRLib_RegisterMe(void *addonData);
   static void PVRLib_UnRegisterMe(void *addonData, CB_PVRLib *cbTable);
+  static CB_VOIPLib* VOIPLib_RegisterMe(void *addonData);
+  static void VOIPLib_UnRegisterMe(void *addonData, CB_VOIPLib *cbTable);
 
   CAddonCallbacksAddon *GetHelperAddon() { return m_helperAddon; }
   CAddonCallbacksCodec *GetHelperCodec() { return m_helperCODEC; }
   CAddonCallbacksGUI *GetHelperGUI() { return m_helperGUI; }
   CAddonCallbacksPVR *GetHelperPVR() { return m_helperPVR; }
+  CAddonCallbacksVOIP  *GetHelperVOIP()  { return m_helperVOIP; }
 
 private:
   AddonCB             *m_callbacks;
@@ -462,6 +479,7 @@ private:
   CAddonCallbacksCodec *m_helperCODEC;
   CAddonCallbacksGUI   *m_helperGUI;
   CAddonCallbacksPVR   *m_helperPVR;
+  CAddonCallbacksVOIP  *m_helperVOIP;
 };
 
 }; /* namespace ADDON */

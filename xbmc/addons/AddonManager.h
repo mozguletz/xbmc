@@ -45,6 +45,7 @@ namespace ADDON
   const std::string ADDON_SCRAPER_EXT          = "*.xml";
   const std::string ADDON_SCREENSAVER_EXT      = "*.xbs";
   const std::string ADDON_PVRDLL_EXT           = "*.pvr";
+  const std::string ADDON_VOIPDLL_EXT           = "*.voip";
   const std::string ADDON_DSP_AUDIO_EXT        = "*.adsp";
   const std::string ADDON_VERSION_RE = "(?<Major>\\d*)\\.?(?<Minor>\\d*)?\\.?(?<Build>\\d*)?\\.?(?<Revision>\\d*)?";
 

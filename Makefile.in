@@ -96,6 +96,8 @@ DIRECTORY_ARCHIVES=$(DVDPLAYER_ARCHIVES) \
                    xbmc/view/view.a \
                    xbmc/windowing/windowing.a \
                    xbmc/windows/windows.a \
+                   xbmc/voip/addons/voipaddons.a \
+                   xbmc/voip/voip.a \
                    xbmc/xbmc.a \
 
 NWAOBJSXBMC=	xbmc/threads/threads.a \
@@ -232,6 +234,7 @@ LIBADDON_DIRS=\
 	lib/addons/library.xbmc.addon \
 	lib/addons/library.xbmc.codec \
 	lib/addons/library.xbmc.pvr \
+	lib/addons/library.xbmc.voip \
 	lib/addons/library.kodi.guilib \
 
 CONFLUENCE_MEDIA=addons/skin.confluence/media
@@ -383,6 +386,7 @@ libaddon: exports
 	$(MAKE) -C lib/addons/library.xbmc.codec
 	$(MAKE) -C lib/addons/library.kodi.guilib
 	$(MAKE) -C lib/addons/library.xbmc.pvr
+	$(MAKE) -C lib/addons/library.xbmc.voip
 dvdpcodecs: dllloader
 	$(MAKE) -C lib/libdvd
 
@@ -430,6 +434,7 @@ DYNOBJSXBMC= \
 	xbmc/video/video.a \
 	xbmc/pvr/addons/pvraddons.a \
 	xbmc/pvr/windows/pvrwindows.a \
+	xbmc/voip/addons/voipaddons.a \
 	xbmc/guilib/guilib.a # must be dynamic to avoid linker errors
 
 ifeq ($(findstring freebsd,@ARCH@),freebsd)

@@ -153,6 +153,8 @@ public:
    */
   bool StartPVRManager();
   void StopPVRManager();
+  bool StartVOIPManager();
+  void StopVOIPManager();
   bool IsCurrentThread() const;
   void Stop(int exitCode);
   void RestartApp();

@@ -24,6 +24,7 @@
 #include "AddonCallbacksCodec.h"
 #include "AddonCallbacksGUI.h"
 #include "AddonCallbacksPVR.h"
+#include "AddonCallbacksVOIP.h"
 #include "filesystem/SpecialProtocol.h"
 #include "utils/log.h"
 
@@ -38,6 +39,7 @@ CAddonCallbacks::CAddonCallbacks(CAddon* addon)
   m_helperGUI   = NULL;
   m_helperPVR   = NULL;
   m_helperCODEC = NULL;
+  m_helperVOIP = NULL;
 
   m_callbacks->libBasePath           = strdup(CSpecialProtocol::TranslatePath("special://xbmcbin/addons").c_str());
   m_callbacks->addonData             = this;
@@ -49,6 +51,8 @@ CAddonCallbacks::CAddonCallbacks(CAddon* addon)
   m_callbacks->GUILib_UnRegisterMe   = CAddonCallbacks::GUILib_UnRegisterMe;
   m_callbacks->PVRLib_RegisterMe     = CAddonCallbacks::PVRLib_RegisterMe;
   m_callbacks->PVRLib_UnRegisterMe   = CAddonCallbacks::PVRLib_UnRegisterMe;
+  m_callbacks->VOIPLib_RegisterMe    = CAddonCallbacks::VOIPLib_RegisterMe;
+  m_callbacks->VOIPLib_UnRegisterMe  = CAddonCallbacks::VOIPLib_UnRegisterMe;
 }
 
 CAddonCallbacks::~CAddonCallbacks()
@@ -64,6 +68,8 @@ CAddonCallbacks::~CAddonCallbacks()
   free((char*)m_callbacks->libBasePath);
   delete m_callbacks;
   m_callbacks = NULL;
+  delete m_helperVOIP;
+  m_helperVOIP = NULL;
 }
 
 CB_AddOnLib* CAddonCallbacks::AddOnLib_RegisterMe(void *addonData)
@@ -169,5 +175,33 @@ void CAddonCallbacks::PVRLib_UnRegisterMe(void *addonData, CB_PVRLib *cbTable)
   delete addon->m_helperPVR;
   addon->m_helperPVR = NULL;
 }
+
+
+CB_VOIPLib* CAddonCallbacks::VOIPLib_RegisterMe(void *addonData)
+{
+  CAddonCallbacks* addon = (CAddonCallbacks*) addonData;
+  if (!addon)
+  {
+    CLog::Log(LOGERROR, "CAddonCallbacks - %s - called with a null pointer", __FUNCTION__);
+    return NULL;
+  }
+
+  addon->m_helperVOIP = new CAddonCallbacksVOIP(addon->m_addon);
+ return addon->m_helperVOIP->GetCallbacks();
+}
+
+void CAddonCallbacks::VOIPLib_UnRegisterMe(void *addonData, CB_VOIPLib *cbTable)
+{
+  CAddonCallbacks* addon = (CAddonCallbacks*) addonData;
+  if (!addon)
+  {
+    CLog::Log(LOGERROR, "CAddonCallbacks - %s - called with a null pointer", __FUNCTION__);
+    return;
+  }
+
+  delete addon->m_helperVOIP;
+  addon->m_helperVOIP = NULL;
+}
+
 
 }; /* namespace ADDON */

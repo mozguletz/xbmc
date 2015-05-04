@@ -20,3 +20,7 @@ BINDINGS+=addons/library.xbmc.pvr/libXBMC_pvr.h
 BINDINGS+=addons/library.xbmc.codec/libXBMC_codec.h
 BINDINGS+=xbmc/cores/dvdplayer/DVDDemuxers/DVDDemuxPacket.h
 BINDINGS+=xbmc/cores/AudioEngine/Utils/AEChannelData.h
+BINDINGS+=addons/library.xbmc.voip/libXBMC_voip.h
+BINDINGS+=xbmc/addons/include/xbmc_voip_types.h
+BINDINGS+=xbmc/addons/include/xbmc_voip_dll.h
+

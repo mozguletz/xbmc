@@ -191,6 +191,11 @@
 #include "music/tags/MusicInfoTagLoaderFactory.h"
 #include "CompileInfo.h"
 
+
+#include "voip/VOIPManager.h"
+#include "voip/addons/VOIPClientsManager.h"
+
+
 #ifdef HAS_PERFORMANCE_SAMPLE
 #include "utils/PerformanceSample.h"
 #else
@@ -263,6 +268,7 @@ using namespace JSONRPC;
 using namespace ANNOUNCEMENT;
 using namespace PVR;
 using namespace EPG;
+using namespace VOIP;
 using namespace PERIPHERALS;
 
 using namespace XbmcThreads;
@@ -1212,6 +1218,7 @@ bool CApplication::Initialize()
       CStereoscopicsManager::Get().Initialize();
     }
 
+    StartVOIPManager();
   }
   else //No GUI Created
   {
@@ -1330,6 +1337,28 @@ void CApplication::StopPVRManager()
     StopPlaying();
   g_PVRManager.Stop();
   g_EpgContainer.Stop();
+}
+
+bool CApplication::StartVOIPManager()
+{
+	if (CSettings::Get().GetBool("voipmanager.enabled")|| true)
+	{
+		g_VOIPManager.Start();
+		return true;
+	}
+	else {
+		CLog::Log(LOGINFO, "VOIPManager not enabled");
+		return false;
+	}
+}
+
+void CApplication::StopVOIPManager()
+{
+
+	if (g_VOIPManager.IsStarted())
+	{
+		g_VOIPManager.Stop();
+	}
 }
 
 void CApplication::StartServices()
@@ -2631,6 +2660,7 @@ void CApplication::Stop(int exitCode)
     CAnnouncementManager::Get().Deinitialize();
 
     StopPVRManager();
+    StopVOIPManager();
     StopServices();
     //Sleep(5000);
 

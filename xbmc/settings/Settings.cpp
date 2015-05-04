@@ -78,6 +78,7 @@
 #include "utils/XBMCTinyXML.h"
 #include "utils/SeekHandler.h"
 #include "view/ViewStateSettings.h"
+#include "voip/VOIPManager.h"
 #include "windowing/WindowingFactory.h"
 #include "input/InputManager.h"
 
@@ -823,6 +824,10 @@ void CSettings::InitializeISettingCallbacks()
   settingSet.insert("epg.resetepg");
   settingSet.insert("pvrparental.enabled");
   m_settingsManager->RegisterCallback(&PVR::g_PVRManager, settingSet);
+
+  settingSet.clear();
+  settingSet.insert("voipmanager.enabled");
+  m_settingsManager->RegisterCallback(&VOIP::g_VOIPManager, settingSet);
 
   settingSet.clear();
   settingSet.insert("lookandfeel.rssedit");

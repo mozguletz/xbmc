@@ -4,6 +4,7 @@ SRCS=Addon.cpp \
      AddonCallbacksCodec.cpp \
      AddonCallbacksGUI.cpp \
      AddonCallbacksPVR.cpp \
+     AddonCallbacksVOIP.cpp \
      AddonDatabase.cpp \
      AddonInstaller.cpp \
      AddonManager.cpp \

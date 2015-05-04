@@ -45,6 +45,10 @@
 #include "DllPVRClient.h"
 #include "pvr/addons/PVRClient.h"
 #endif
+
+#include "DllVOIPClient.h"
+#include "voip/addons/VOIPClient.h"
+
 //#ifdef HAS_SCRAPERS
 #include "Scraper.h"
 //#endif
@@ -57,6 +61,7 @@
 #include "addons/Webinterface.h"
 
 using namespace std;
+using namespace VOIP;
 using namespace XFILE;
 
 namespace ADDON
@@ -118,6 +123,8 @@ AddonPtr CAddonMgr::Factory(const cp_extension_t *props)
     case ADDON_SCRAPER_TVSHOWS:
     case ADDON_SCRAPER_LIBRARY:
       return AddonPtr(new CScraper(props));
+    case ADDON_VOIPDLL:
+      return AddonPtr(new CVOIPClient(props));
     case ADDON_VIZ:
     case ADDON_SCREENSAVER:
     case ADDON_PVRDLL:
@@ -835,6 +842,8 @@ AddonPtr CAddonMgr::AddonFromProps(AddonProps& addonProps)
       return AddonPtr(new CRepository(addonProps));
     case ADDON_CONTEXT_ITEM:
       return AddonPtr(new CContextItemAddon(addonProps));
+    case ADDON_VOIPDLL:
+    	return AddonPtr(new CVOIPClient(addonProps));
     default:
       break;
   }
